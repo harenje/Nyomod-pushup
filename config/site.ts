@@ -1,18 +1,15 @@
 export type SiteConfig = typeof siteConfig
 
 export const siteConfig = {
-  name: "Next.js",
+  name: "Nyomod pushup counter",
   description:
-    "Beautifully designed components built with Radix UI and Tailwind CSS.",
+    "You need to prove yourself to be part of nyomod",
   mainNav: [
     {
-      title: "Home",
       href: "/",
     },
   ],
   links: {
-    twitter: "https://twitter.com/shadcn",
-    github: "https://github.com/shadcn/ui",
-    docs: "https://ui.shadcn.com",
+    github: "https://github.com/harenje",
   },
 }
