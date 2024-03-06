@@ -5,15 +5,15 @@ import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts"
 const data = [
   {
     name: "Jan",
-    total: Math.floor(Math.random() * 1000) + 1000,
+    total: Math.floor(Math.random() * 1200) + 1000,
   },
   {
     name: "Feb",
-    total: Math.floor(Math.random() * 1000) + 1000,
+    total: Math.floor(Math.random() * 1200) + 1000,
   },
   {
     name: "Mar",
-    total: Math.floor(Math.random() * 1000) + 1000,
+    total: Math.floor(Math.random() * 1200) + 1000,
   },
   {
     name: "Apr",

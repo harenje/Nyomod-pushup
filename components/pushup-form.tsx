@@ -1,20 +1,20 @@
 "use client"
  
-import Link from "next/link"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
+import { useForm, useFormState } from "react-hook-form"
 import { z } from "zod"
  
 import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+
 import {
   Select,
   SelectContent,
@@ -29,17 +29,26 @@ const FormSchema = z.object({
     .string({
       required_error: "Válasszál nevet e",
     }),
+  pushupNum:z.coerce.number()
 
 })
+
+type FormValues = z.infer<typeof FormSchema>
  
 export function SelectForm() {
-  const form = useForm<z.infer<typeof FormSchema>>({
+  const form = useForm<FormValues>({
     resolver: zodResolver(FormSchema),
+    defaultValues: {
+      name: 'Dani',
+      pushupNum: 0
+    },
   })
- 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
+
+  
+
+  function onSubmit(data: FormValues) {
     toast({
-      title: "Ennyi fekvőt adtál hozzá",
+      title: "Adatok elkönyvelve",
       description: (
         <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
           <code className="text-white">{JSON.stringify(data, null, 2)}</code>
@@ -51,16 +60,16 @@ export function SelectForm() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
-        <FormField
+      <FormField
           control={form.control}
-          name="Név"
+          name="name"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Név</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <Select onValueChange={field.onChange} defaultValue={"Dani"}>
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="Név" />
+                    <SelectValue />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
@@ -69,6 +78,19 @@ export function SelectForm() {
                   <SelectItem value="Kristóf">Kristóf</SelectItem>
                 </SelectContent>
               </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+         <FormField
+          control={form.control}
+          name="pushupNum"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Fekvőtámasz szám</FormLabel>
+              <FormControl>
+                <Input placeholder="0" {...field} />
+              </FormControl>
               <FormMessage />
             </FormItem>
           )}

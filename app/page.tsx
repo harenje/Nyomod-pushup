@@ -138,7 +138,7 @@ export default function IndexPage() {
             <Overview />
           </CardContent>
         </Card>
-        <Card className="col-span-4 lg:col-span-3 flex justify-center items-center">
+        <Card className="col-span-4 lg:col-span-3 flex justify-center items-center py-6">
           <SelectForm/>
         </Card>
       </div>
