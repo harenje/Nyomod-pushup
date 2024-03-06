@@ -10,6 +10,6 @@ export const siteConfig = {
     },
   ],
   links: {
-    github: "https://github.com/harenje",
+    github: "https://github.com/harenje/Nyomod-pushup",
   },
 }
