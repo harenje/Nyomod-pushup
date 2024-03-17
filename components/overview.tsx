@@ -101,7 +101,7 @@ console.error = (...args: any) => {
   error(...args)
 }
 
-export function Overview() {
+export function Overview(): JSX.Element {
   const queryClient = useQueryClient()
 
   const {
@@ -136,6 +136,10 @@ export function Overview() {
   if (isLoadingDani || isLoadingDonat || isLoadingKristof)
     return <p>Loading...</p>
 
+  if (errorDani || errorDonat || errorKristof) {
+    return <p>Error loading data</p> // Handling errors
+  }
+
   if (dataMonthlyDani && dataMonthlyDonat && dataMonthlyKristof) {
     const transformedData = aggregateMonthlyData(
       dataMonthlyDani,
@@ -144,40 +148,41 @@ export function Overview() {
     )
 
     return (
-      <ResponsiveContainer width="100%" height={400}>
-        <BarChart
-          width={500}
-          height={300}
-          data={transformedData}
-          margin={{
-            top: 5,
-            right: 20,
-            left: 20,
-            bottom: 5,
-          }}
-        >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" stroke="#888888" fontSize={12} />
-          <YAxis dataKey="total" stroke="#888888" />
-          <Tooltip />
-          <Legend />
-          <Bar
-            dataKey="dani"
-            fill="#00FFE8"
-            activeBar={<Rectangle stroke="white" />}
-          />
-          <Bar
-            dataKey="donat"
-            fill="#6527BE"
-            activeBar={<Rectangle stroke="white" />}
-          />
-          <Bar
-            dataKey="kristof"
-            fill="#F3AA60"
-            activeBar={<Rectangle stroke="white" />}
-          />
-        </BarChart>
-      </ResponsiveContainer>
+        <ResponsiveContainer width="100%" height={400}>
+          <BarChart
+            width={500}
+            height={300}
+            data={transformedData}
+            margin={{
+              top: 5,
+              right: 20,
+              left: 20,
+              bottom: 5,
+            }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" stroke="#888888" fontSize={12} />
+            <YAxis dataKey="total" stroke="#888888" />
+            <Tooltip />
+            <Legend />
+            <Bar
+              dataKey="dani"
+              fill="#00FFE8"
+              activeBar={<Rectangle stroke="white" />}
+            />
+            <Bar
+              dataKey="donat"
+              fill="#6527BE"
+              activeBar={<Rectangle stroke="white" />}
+            />
+            <Bar
+              dataKey="kristof"
+              fill="#F3AA60"
+              activeBar={<Rectangle stroke="white" />}
+            />
+          </BarChart>
+        </ResponsiveContainer>
     )
   }
+  return <p>fogalmam sincs</p>
 }
