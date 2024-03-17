@@ -1,6 +1,9 @@
 "use client"
 
+import { useState } from "react"
+import { getTodayPushups, updatePushup } from "@/services/apiPushups"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 
@@ -35,6 +38,44 @@ const FormSchema = z.object({
 type FormValues = z.infer<typeof FormSchema>
 
 export function SelectForm() {
+  const [selectedPerson, isSelectedPerson] = useState("Dani")
+  const queryClient = useQueryClient()
+
+  const { mutate: updatePushupNum, isLoading: isUpdating } = useMutation({
+    mutationFn: ({
+      name,
+      additionalPushups,
+    }: {
+      name: string
+      additionalPushups: number
+    }) => updatePushup(name, additionalPushups),
+    onSuccess: () => {
+      toast({
+        title: "Siker",
+        description: (
+          <pre className="mt-2 w-[340px] rounded-md bg-green-600 p-4">
+            <code className="text-white">
+              Fekvőtámaszok sikeresen hozzáadva!
+            </code>
+          </pre>
+        ),
+      }),
+        queryClient.invalidateQueries({ queryKey: ["pushupDani"] })
+      queryClient.invalidateQueries({ queryKey: ["pushupDonat"] })
+      queryClient.invalidateQueries({ queryKey: ["pushupKristof"] })
+    },
+    onError: (err: TypeError) => {
+      toast({
+        title: "Nem sikerült a fekvőtámaszok hozzáadása",
+        description: (
+          <pre className="mt-2 w-[340px] rounded-md bg-red-600 p-4">
+            <code className="text-red">{err.message}</code>
+          </pre>
+        ),
+      })
+    },
+  })
+
   const form = useForm<FormValues>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -44,14 +85,7 @@ export function SelectForm() {
   })
 
   function onSubmit(data: FormValues) {
-    toast({
-      title: "Nyomod fasz",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    })
+    updatePushupNum({ name: data.name, additionalPushups: data.pushupNum })
   }
 
   return (
@@ -63,7 +97,13 @@ export function SelectForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Név</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={"Dani"}>
+              <Select
+                onValueChange={(value) => {
+                  field.onChange(value)
+                  isSelectedPerson(value)
+                }}
+                defaultValue={"Dani"}
+              >
                 <FormControl>
                   <SelectTrigger>
                     <SelectValue />
@@ -71,8 +111,8 @@ export function SelectForm() {
                 </FormControl>
                 <SelectContent>
                   <SelectItem value="Dani">Dani</SelectItem>
-                  <SelectItem value="Donát">Donát</SelectItem>
-                  <SelectItem value="Kristóf">Kristóf</SelectItem>
+                  <SelectItem value="Donat">Donát</SelectItem>
+                  <SelectItem value="Kristof">Kristóf</SelectItem>
                 </SelectContent>
               </Select>
               <FormMessage />
@@ -92,10 +132,13 @@ export function SelectForm() {
             </FormItem>
           )}
         />
-        <Button type="submit">Hozzáad</Button>
-        <p className="text-xs text-muted-foreground text-center">
-          Mai napra eddig: 70 db fekvőtámasz hozzáadva neki: Dani
-        </p>
+        <Button type="submit" disabled={isUpdating}>
+          Hozzáad
+        </Button>
+        {/* <p className="text-xs text-muted-foreground text-center">
+          Mai napra eddig: {totalPushupsToday} db fekvőtámasz hozzáadva neki:{" "}
+          {selectedPerson}
+        </p> */}
       </form>
     </Form>
   )

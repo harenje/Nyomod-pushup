@@ -76,9 +76,9 @@ export default function IndexPage() {
               </svg>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{dataDani[0].pushupNum} db</div>
+              <div className="text-2xl font-bold">{dataDani[0].pushupnum} db</div>
               <p className="text-xs text-muted-foreground">
-                +65 db az előző hónaphoz képest
+                todo
               </p>
             </CardContent>
           </Card>
@@ -102,9 +102,9 @@ export default function IndexPage() {
               </svg>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{dataDonat[0].pushupNum} db</div>
+              <div className="text-2xl font-bold">{dataDonat[0].pushupnum} db</div>
               <p className="text-xs text-muted-foreground">
-                +12 db az előző hónaphoz képest
+                todo
               </p>
             </CardContent>
           </Card>
@@ -130,8 +130,8 @@ export default function IndexPage() {
               </svg>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{dataKristof[0].pushupNum}</div>
-              <p className="text-xs text-muted-foreground">-</p>
+              <div className="text-2xl font-bold">{dataKristof[0].pushupnum}</div>
+              <p className="text-xs text-muted-foreground">todo</p>
             </CardContent>
           </Card>
         </div>

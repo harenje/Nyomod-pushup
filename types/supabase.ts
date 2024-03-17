@@ -9,24 +9,56 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      monthly_pushups: {
+        Row: {
+          contestant_name: string
+          id: number
+          month: number
+          pushup_count: number
+          year: number
+        }
+        Insert: {
+          contestant_name: string
+          id?: number
+          month: number
+          pushup_count: number
+          year: number
+        }
+        Update: {
+          contestant_name?: string
+          id?: number
+          month?: number
+          pushup_count?: number
+          year?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_monthly_pushups_contestant_name_fkey"
+            columns: ["contestant_name"]
+            isOneToOne: true
+            referencedRelation: "pushup"
+            referencedColumns: ["name"]
+          }
+        ]
+      }
       pushup: {
         Row: {
           created_at: string
           id: number
           name: string
-          pushupNum: number
+          pushupnum: number
         }
         Insert: {
           created_at?: string
           id?: number
           name: string
-          pushupNum: number
+          pushupnum: number
         }
         Update: {
           created_at?: string
           id?: number
           name?: string
-          pushupNum?: number
+          pushupnum?: number
         }
         Relationships: []
       }
@@ -35,7 +67,13 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      incrementpushupnum: {
+        Args: {
+          name_param: string
+          pushup_addition: number
+        }
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never
