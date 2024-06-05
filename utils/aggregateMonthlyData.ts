@@ -59,7 +59,7 @@ interface MonthlyPushupRecord {
       donat: monthData.scores.donat || 0,
       kristof: monthData.scores.kristof || 0,
     }));
-  
+    aggregatedData.sort((a, b) => monthNames.indexOf(a.name) - monthNames.indexOf(b.name));
     return aggregatedData;
   }
   
